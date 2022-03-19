@@ -6,7 +6,7 @@
 Summary:	HTTP cookie parsing and rendering
 Name:		ghc-%{pkgname}
 Version:	0.4.5
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages
 #Source0Download: http://hackage.haskell.org/package/cookie
