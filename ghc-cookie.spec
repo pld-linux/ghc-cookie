@@ -4,6 +4,7 @@
 #
 %define		pkgname	cookie
 Summary:	HTTP cookie parsing and rendering
+Summary(pl.UTF-8):	Analiza i renderowanie ciasteczek HTTP
 Name:		ghc-%{pkgname}
 Version:	0.4.5
 Release:	2
@@ -14,15 +15,31 @@ Source0:	http://hackage.haskell.org/package/%{pkgname}-%{version}/%{pkgname}-%{v
 # Source0-md5:	a3739514859a70325882534daeeddbe2
 URL:		http://hackage.haskell.org/package/cookie
 BuildRequires:	ghc >= 6.12.3
+BuildRequires:	ghc-base >= 4
+BuildRequires:	ghc-base < 5
+BuildRequires:	ghc-bytestring >= 0.10.2
 BuildRequires:	ghc-data-default-class
+BuildRequires:	ghc-deepseq
+BuildRequires:	ghc-text >= 1.1
+BuildRequires:	ghc-time >= 1.5
 %if %{with prof}
 BuildRequires:	ghc-prof
+BuildRequires:	ghc-base-prof >= 4
+BuildRequires:	ghc-bytestring-prof >= 0.10.2
 BuildRequires:	ghc-data-default-class-prof
+BuildRequires:	ghc-deepseq-prof
+BuildRequires:	ghc-text-prof >= 1.1
+BuildRequires:	ghc-time-prof >= 1.5
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.608
 %requires_eq	ghc
 Requires(post,postun):	/usr/bin/ghc-pkg
+Requires:	ghc-base >= 4
+Requires:	ghc-bytestring >= 0.10.2
 Requires:	ghc-data-default-class
+Requires:	ghc-deepseq
+Requires:	ghc-text >= 1.1
+Requires:	ghc-time >= 1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # debuginfo is not useful for ghc
@@ -34,16 +51,24 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 HTTP cookie parsing and rendering.
 
+%description -l pl.UTF-8
+Analiza i renderowanie ciasteczek HTTP.
+
 %package prof
 Summary:	Profiling %{pkgname} library for GHC
 Summary(pl.UTF-8):	Biblioteka profilująca %{pkgname} dla GHC
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	ghc-base-prof >= 4
+Requires:	ghc-bytestring-prof >= 0.10.2
 Requires:	ghc-data-default-class-prof
+Requires:	ghc-deepseq-prof
+Requires:	ghc-text-prof >= 1.1
+Requires:	ghc-time-prof >= 1.5
 
 %description prof
-Profiling %{pkgname} library for GHC.  Should be installed when
-GHC's profiling subsystem is needed.
+Profiling %{pkgname} library for GHC. Should be installed when GHC's
+profiling subsystem is needed.
 
 %description prof -l pl.UTF-8
 Biblioteka profilująca %{pkgname} dla GHC. Powinna być zainstalowana
@@ -61,6 +86,7 @@ runhaskell Setup.lhs configure -v2 \
 	--docdir=%{_docdir}/%{name}-%{version}
 
 runhaskell Setup.lhs build
+
 runhaskell Setup.lhs haddock --executables
 
 %install
@@ -91,7 +117,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc ChangeLog.md README.md %{name}-%{version}-doc/*
 %{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
 %dir %{_libdir}/%{ghcdir}/%{pkgname}-%{version}
-%{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.so
+%attr(755,root,root) %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.so
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*.a
 %exclude %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/*_p.a
 
